@@ -1,15 +1,18 @@
+# Importing required packages/modules.
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_socketio import join_room, leave_room, send, SocketIO
-import random
 from string import ascii_uppercase
+import random
 
+#SocketIo setup
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "ljlsdf209343kj"
 socketio = SocketIO(app)
 
+# Dictionary to store information about active chat rooms, including members and messages.
 rooms = {}
 
-# Generating unique room code
+# Generating unique alphanumeric room code of given length.
 def generate_unique_code(len):
   while True:
     code = ''
@@ -22,6 +25,7 @@ def generate_unique_code(len):
   return code
 
 
+# "/" (GET, POST): Renders the home page where users can enter their name and either join an existing room or create a new one.
 @app.route("/", methods=["POST", "GET"])
 def home():
   session.clear()
@@ -51,6 +55,7 @@ def home():
   return render_template("home.html")
 
 
+# "/room" (GET): Renders the chat room page where users can view messages and send new ones.
 @app.route("/room")
 def room():
   room = session.get("room")
@@ -60,6 +65,7 @@ def room():
   return render_template("room.html", code=room, messages=rooms[room]['messages'])
 
 
+# "message": Handles incoming messages from clients, and broadcasts the message to all members in the room.
 @socketio.on("message")
 def message(data):
   room = session.get("room")
@@ -73,8 +79,9 @@ def message(data):
 
   send(content, to=room)
   rooms[room]["messages"].append(content)
-  print(f"{session.get("name")} said: {data["data"]}")
 
+
+# "connect": Handles client connection, joins the client to the specified room, and notifies room members about the new join.
 @socketio.on("connect")
 def connect(auth):
   room = session.get("room")
@@ -88,9 +95,9 @@ def connect(auth):
   join_room(room)
   send({"name": name, "message": "joined the room"}, to=room)
   rooms[room]["members"] += 1
-  print(f"{name} joined room {room}")
 
 
+# "disconnect": Handles client disconnection, removes the client from the room, updates room member count, and notifies room members about the leave.
 @socketio.on("disconnect")
 def disconnect():
   room = session.get("room")
@@ -103,7 +110,6 @@ def disconnect():
       del rooms[room]
 
   send({"name": name, "message": "has left"}, to=room)
-  print(f"{name} has left the {room}")
 
 
 if __name__ == "__main__":
