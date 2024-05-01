@@ -1,3 +1,4 @@
+/* Base designs */
 .content {
   display: flex;
   align-items: center;
@@ -20,4 +21,35 @@
 
 .create-btn {
   width: 100%;
+}
+
+/* Room designs */
+.message-box {
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: whitesmoke;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  width:80vw;
+  align-items: stretch;
+}
+
+.messages {
+  overflow-y: scroll;
+  flex: 1;
+  width: 100%;
+}
+
+.inputs {
+  padding: 10px;
+  display: flex;
+}
+
+h2 {
+  text-align: center;
+}
+
+#message {
+  flex: 1;
 }
