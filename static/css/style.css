@@ -53,3 +53,19 @@ h2 {
 #message {
   flex: 1;
 }
+
+
+/* Message style */
+.text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.message-date{
+  font-size: 10px;
+  color: rgb(147, 147, 147);
+}
