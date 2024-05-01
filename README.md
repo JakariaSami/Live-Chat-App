@@ -3,9 +3,14 @@ This is a simple realtime chat application built using **Python**, **Flask**, an
 
 ## Features
 - Create new chat rooms with unique room codes.
+  ![Home Page](screenshots/1.png)
 - Join existing chat rooms using room codes.
+  ![Chat Page](screenshots/2.png)
 - Real-time messaging between users in the same chat room.
+  ![Chat Page](screenshots/3.png)
 - Automatic disconnection handling when users leave a chat room.
+
+  
 
 ## Getting Started
 To run this application locally, follow these steps:
